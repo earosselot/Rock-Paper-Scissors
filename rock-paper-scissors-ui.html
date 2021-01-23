@@ -5,17 +5,27 @@
 
 </head>
 <body>
-    <button id='rock'>Rock</button>
-    <button id='paper'>Paper</button>
-    <button id='scissors'>Scissors</button>
+    <button id='rock' class='rps'>Rock</button>
+    <button id='paper' class='rps'>Paper</button>
+    <button id='scissors' class='rps'>Scissors</button>
     
     <div id='results'></div>
     <div id='running-score'></div>
+
+    <button id='reset' style="display: none;">Play again!</button>
 
     <script>
 
         const resultsDiv = document.querySelector('#results');
         const runningScoreDiv = document.querySelector('#running-score');
+        const buttons = document.querySelectorAll('.rps');
+        const reset_btn = document.querySelector('#reset');
+
+
+        let playerScore = 0;
+        let computerScore = 0;
+        let result = 2;        
+
 
         function computerPlay() {
             const number = Math.trunc(Math.random()*3);
@@ -60,43 +70,59 @@
         }
 
 
-        let playerScore = 0;
-        let computerScore = 0;
-        let result = 2;
-        console.log('1');
-        
+        function endGame() {
+            buttons.forEach((button) => {
+                button.style.display = 'none';
+            })
+            reset_btn.style.display = 'block';
+        }
 
-        const buttons = document.querySelectorAll('button');
+
         buttons.forEach((button) => {
             
             button.addEventListener('click', () => {
-                let playerSelection = button.getAttribute('id');    
-                console.log(playerSelection);
+                let playerSelection = button.getAttribute('id');
                 let computerSelection = computerPlay();
-                console.log(computerSelection);
                 result = playRound(playerSelection, computerSelection);
 
                         
                 if (result === 1) {
                     playerScore += 1;
-                    resultsDiv.textContent = 'player wins the round';
+                    resultsDiv.textContent = `${playerSelection} beats ${computerSelection}! \n player wins the round`;
                 } else if (result === 0) {
                     computerScore += 1;
-                    resultsDiv.textContent = 'computer wins the round';
+                    resultsDiv.textContent = `${computerSelection} beats ${playerSelection}! \n computer wins the round`;
+                } else {
+                    resultsDiv.textContent = `That was a draw on ${playerSelection}`;
                 }
 
                 runningScoreDiv.textContent = `playerScore: ${playerScore}, computerScore: ${computerScore}`
 
-                        
                 if (playerScore === 5) {
                     resultsDiv.textContent = 'player wins the game!';
+                    endGame();
                 } else if (computerScore === 5) {
                     resultsDiv.textContent = 'computer wins the game!';
-                }   
+                    endGame();
+                }           
 
             })
         })
         
+
+        reset_btn.addEventListener('click', () => {
+            playerScore = 0;
+            computerScore = 0;
+            reset_btn.style.display = 'none';
+            buttons.forEach((button) => {
+                button.style.display = 'block';
+            })
+            resultsDiv.textContent = 'New game';
+            runningScoreDiv.textContent = '';
+        })
+
+        // FALTA MEJORAR EL ASPECTO VISUAL
+        // NO SE PORQUE LOS BOTONES SE PONEN EN UNA COLUMNA A PARTIR DEL SEGUNDO JUEGO
     </script>
 </body>
 </html>
