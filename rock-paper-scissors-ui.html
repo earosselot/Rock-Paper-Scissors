@@ -2,7 +2,20 @@
 <html>
 <head>
     <title>Rock Paper Scissors</title>
+
+</head>
+<body>
+    <button id='rock'>Rock</button>
+    <button id='paper'>Paper</button>
+    <button id='scissors'>Scissors</button>
+    
+    <div id='results'></div>
+    <div id='running-score'></div>
+
     <script>
+
+        const resultsDiv = document.querySelector('#results');
+        const runningScoreDiv = document.querySelector('#running-score');
 
         function computerPlay() {
             const number = Math.trunc(Math.random()*3);
@@ -42,37 +55,48 @@
                     }
                 }
             }
+            console.log(win)
             return win
         }
 
-        function game(){
-            let playerScore = 0;
-            let computerScore = 0;
-            while (playerScore < 5 && computerScore < 5) {
-                let playerSelection = prompt('rock, paper or scissors?:');
+
+        let playerScore = 0;
+        let computerScore = 0;
+        let result = 2;
+        console.log('1');
+        
+
+        const buttons = document.querySelectorAll('button');
+        buttons.forEach((button) => {
+            
+            button.addEventListener('click', () => {
+                let playerSelection = button.getAttribute('id');    
+                console.log(playerSelection);
                 let computerSelection = computerPlay();
+                console.log(computerSelection);
                 result = playRound(playerSelection, computerSelection);
+
+                        
                 if (result === 1) {
                     playerScore += 1;
-                    console.log('player wins the round');
+                    resultsDiv.textContent = 'player wins the round';
                 } else if (result === 0) {
                     computerScore += 1;
-                    console.log('computer wins the round');
+                    resultsDiv.textContent = 'computer wins the round';
                 }
-                console.log(`playerScore: ${playerScore}, computerScore: 
-                        ${computerScore}`)
-            }
-            if (playerScore === 5) {
-                console.log('player wins the game!');
-            } else {
-                console.log('computer wins the game!');
-            }
-        }
 
-        game()
+                runningScoreDiv.textContent = `playerScore: ${playerScore}, computerScore: ${computerScore}`
+
+                        
+                if (playerScore === 5) {
+                    resultsDiv.textContent = 'player wins the game!';
+                } else if (computerScore === 5) {
+                    resultsDiv.textContent = 'computer wins the game!';
+                }   
+
+            })
+        })
+        
     </script>
-</head>
-<body>
-
 </body>
 </html>
