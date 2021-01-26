@@ -2,125 +2,50 @@
 <html>
 <head>
     <title>Rock Paper Scissors</title>
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <link rel='stylesheet' href='style.css'>
 </head>
 <body>
-    <button id='rock' class='rps'>Rock</button>
-    <button id='paper' class='rps'>Paper</button>
-    <button id='scissors' class='rps'>Scissors</button>
-    
-    <div id='results'></div>
-    <div id='running-score'></div>
+    <div class='container'>
 
-    <button id='reset' style="display: none;">Play again!</button>
+        <div class='row'>
+            <div class='col'>
+                <h1 class='display-4'>Rock, Paper & Scissors</h1>
+            </div>
+            <div class='col-4'>
+                <img src='images/rps.jpg'>
+            </div>   
+        </div>
 
-    <script>
+        <div class='row'>
+            <div class='col-2'>
+                <div class='row'><button id='rock' class='rps btn btn-outline-dark'>Rock</button></div>
+                <div class='row'><button id='paper' class='rps btn btn-outline-info'>Paper</button></div>
+                <div class='row'><button id='scissors' class='rps btn btn-outline-secondary'>Scissors</button></div>
+            </div>
+            <div class='col-2'>
+                <p id='player-cartoon' class='rps-image'></p><!-- cartoon player -->
+            </div>
+            <div class='col-6' id='marker' style="display: hidden;">
+                <div class='row'>
+                    <div id='results' class="alert alert-primary"></div>
+                </div>
+                <div class='row'>
+                    <div class='col-6 alert alert-success' id='player-score'></div>
+                    <div class='col-6 alert alert-danger' id='computer-score'></div>
+                </div>
+            </div>
+            <div class='col-2'>
+                <p id='computer-cartoon' class='rps-image'></p><!-- cartoon computer -->
+            </div>
+        </div>
 
-        const resultsDiv = document.querySelector('#results');
-        const runningScoreDiv = document.querySelector('#running-score');
-        const buttons = document.querySelectorAll('.rps');
-        const reset_btn = document.querySelector('#reset');
-
-
-        let playerScore = 0;
-        let computerScore = 0;
-        let result = 2;        
-
-
-        function computerPlay() {
-            const number = Math.trunc(Math.random()*3);
-            let computer
-            if (number === 0) {
-                computer = 'rock';
-            } else if (number === 1) {
-                computer = 'paper';
-            } else {
-                computer = 'scissors'
-            }
-            return computer
-        }
-
-
-        function playRound(playerSelection, computerSelection) {
-            let win = 2;
-            playerSelection = playerSelection.toLowerCase();
-            if (playerSelection != computerSelection) {
-                if (playerSelection === 'rock') {
-                    if (computerSelection === 'paper'){
-                        win = 0;
-                    } else {
-                        win = 1;
-                    }
-                } else if (playerSelection === 'paper') {
-                    if (computerSelection === 'scissors') {
-                        win = 0;
-                    } else {
-                        win = 1;
-                    }
-                } else {
-                    if (computerSelection === 'rock') {
-                        win = 0;
-                    } else {
-                        win = 1;
-                    }
-                }
-            }
-            console.log(win)
-            return win
-        }
-
-
-        function endGame() {
-            buttons.forEach((button) => {
-                button.style.display = 'none';
-            })
-            reset_btn.style.display = 'block';
-        }
-
-
-        buttons.forEach((button) => {
-            
-            button.addEventListener('click', () => {
-                let playerSelection = button.getAttribute('id');
-                let computerSelection = computerPlay();
-                result = playRound(playerSelection, computerSelection);
-
-                        
-                if (result === 1) {
-                    playerScore += 1;
-                    resultsDiv.textContent = `${playerSelection} beats ${computerSelection}! \n player wins the round`;
-                } else if (result === 0) {
-                    computerScore += 1;
-                    resultsDiv.textContent = `${computerSelection} beats ${playerSelection}! \n computer wins the round`;
-                } else {
-                    resultsDiv.textContent = `That was a draw on ${playerSelection}`;
-                }
-
-                runningScoreDiv.textContent = `playerScore: ${playerScore}, computerScore: ${computerScore}`
-
-                if (playerScore === 5) {
-                    resultsDiv.textContent = 'player wins the game!';
-                    endGame();
-                } else if (computerScore === 5) {
-                    resultsDiv.textContent = 'computer wins the game!';
-                    endGame();
-                }           
-
-            })
-        })
+        <div class='row'>
+            <button id='reset' class="btn btn-primary" style="display: none;" >Play again!</button>
+        </div>
         
-
-        reset_btn.addEventListener('click', () => {
-            playerScore = 0;
-            computerScore = 0;
-            reset_btn.style.display = 'none';
-            buttons.forEach((button) => {
-                button.style.display = 'block';
-            })
-            resultsDiv.textContent = 'New game';
-            runningScoreDiv.textContent = '';
-        })
-
+    </div>
+    <script src='script.js'>
         // FALTA MEJORAR EL ASPECTO VISUAL
         // NO SE PORQUE LOS BOTONES SE PONEN EN UNA COLUMNA A PARTIR DEL SEGUNDO JUEGO
     </script>
