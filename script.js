@@ -66,14 +66,19 @@ function endGame() {
 
 
 function setImage(slot, image) {
-    if (image === 'rock') {
-        slot.textContent = '&#9994';
-    } else if (image === 'paper'){
-        slot.textContent = '&#9995;';
-    } else if (image === 'scissors') {
-        slot.textContent = '&#9996;';
-    }
-    // slot.src = `images/${image}_cartoon.png`;
+
+    let img = document.createElement('img');
+    // if (image === 'rock') {
+    //     slot.textContent = '&#9994';
+    // } else if (image === 'paper'){
+    //     slot.textContent = '&#9995;';
+    // } else if (image === 'scissors') {
+    //     slot.textContent = '&#9996;';
+    // }
+    img.src = `images/${image}_cartoon.png`;
+    img.width = "100";
+    slot.innerHTML = "";
+    slot.appendChild(img);
 }
 
 buttons.forEach((button) => {
